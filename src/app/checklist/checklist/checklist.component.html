@@ -1,0 +1,107 @@
+<!-- Wrapper com rolagem horizontal no mobile -->
+<div style="width: 100%; overflow-x: auto;">
+  <!-- Linha dos cards lado a lado -->
+  <div style="display: flex; flex-wrap: nowrap; gap: 15px; min-width: 700px; padding: 16px; box-sizing: border-box;">
+
+    <!-- Card de legenda -->
+    <mat-card style="flex: 0 0 49%; padding: 16px; border-radius: 12px;">
+      <mat-card-title>Legenda</mat-card-title>
+      <mat-card-content>
+        <p>C = Conforme</p>
+        <p>NC = Não Conforme</p>
+        <p>NA = Não Aplica</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card de Input -->
+    <mat-card style="flex: 0 0 49%; padding: 16px; border-radius: 12px;">
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <mat-form-field appearance="fill">
+          <mat-label>Filial</mat-label>
+          <input matInput placeholder="Digite a filial...">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fábrica</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let opcao of fabricas" [value]="opcao.valor">
+              {{ opcao.descricao }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Modelo</mat-label>
+          <input matInput placeholder="Digite o modelo...">
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+  </div>
+</div>
+
+
+<!-- Checklist -->
+<div fxLayout="column" fxLayoutAlign="center center" fxFlex="100" class="div-checklist" style="width: 100%;">
+  <mat-card class="checklist-card" style="margin: 20px; padding: 16px; border-radius: 12px; width: 100%; max-width: 1000px; box-sizing: border-box;">
+    <div style="overflow-x: auto;">
+      <table mat-table [dataSource]="dados" class="mat-elevation-z8 mat-responsive" style="width: 100%; min-width: 700px;">
+        <!-- Processo -->
+        <ng-container matColumnDef="processo">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%;"> Processo </th>
+          <td mat-cell *matCellDef="let item"> {{item.processo}} </td>
+        </ng-container>
+
+        <!-- Seleção Única: C, NC, NA -->
+        <!-- C -->
+        <ng-container matColumnDef="c">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center; width: 5%;">C</th>
+          <td mat-cell *matCellDef="let item" style="text-align: center;">
+            <mat-radio-group [(ngModel)]="item.opcaoSelecionada">
+              <mat-radio-button value="c"></mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </ng-container>
+
+        <!-- NC -->
+        <ng-container matColumnDef="nc">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center; width: 5%;">NC</th>
+          <td mat-cell *matCellDef="let item" style="text-align: center;">
+            <mat-radio-group [(ngModel)]="item.opcaoSelecionada">
+              <mat-radio-button value="nc"></mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </ng-container>
+
+        <!-- NA -->
+        <ng-container matColumnDef="na">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center; width: 5%;">NA</th>
+          <td mat-cell *matCellDef="let item" style="text-align: center;">
+            <mat-radio-group [(ngModel)]="item.opcaoSelecionada">
+              <mat-radio-button value="na"></mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </ng-container>
+
+        <!-- Observação -->
+        <ng-container matColumnDef="observacao">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Observação </th>
+          <td mat-cell *matCellDef="let item">
+            <mat-form-field appearance="fill" fxFlex="100" style="width: 100%;">
+              <input matInput [(ngModel)]="item.observacao" placeholder="Digite aqui..."/>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Cabeçalho e Linhas -->
+        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
+      </table>
+    </div>
+  </mat-card>
+</div>
+
+<div class='botoes'>
+  <button mat-stroked-button style="width: 48%; margin: 1%;" color="warn" (click)="limparTabela()">Limpar</button>
+  <button mat-flat-button style="width: 48%; margin: 1%;">Salvar</button>
+</div>
